@@ -1,56 +1,3 @@
-/// EXAMPLE REDUCER THAT DOES NOTHING TO STATE
-
-
-// var initialRepositoryState = [];
-
-// var repositoryReducer = function(state, action) {
-//     state = state || initialRepositoryState;
-//     return state;
-// };
-
-//exports.repositoryReducer = repositoryReducer;
-
-/// EXAMPLE REDUCER
-
-// var actions = require('./actions');
-
-// var initialRepositoryState = [];
-
-// var repositoryReducer = function(state, action) {
-//     state = state || initialRepositoryState;
-//     if (action.type === actions.ADD_REPOSITORY) {
-//         return state.concat({
-//             name: action.repository,
-//             rating: null
-//         });
-//     }
-//     else if (action.type === actions.RATE_REPOSITORY) {
-//         // Find the index of the matching repository
-//         var index = -1;
-//         for (var i=0; i<state.length; i++) {
-//             var repository = state[i];
-//             if (repository.name === action.repository) {
-//                 index = i;
-//                 break;
-//             }
-//         }
-
-//         if (index === -1) {
-//             throw new Error('Could not find repository');
-//         }
-
-//         var before = state.slice(0, i);
-//         var after = state.slice(i + 1);
-//         var newRepository = Object.assign({}, repository, {rating: action.rating});
-//         return before.concat(newRepository, after);
-//     }
-
-//     return state;
-// };
-
-// exports.repositoryReducer = repositoryReducer;
-
-
 ///// Hot or Cold Reducer
 var update = require('react-addons-update');
 var actions = require('./actions');
@@ -72,7 +19,7 @@ var hotOrColdReducer = function(state, action) {
             number: {$set: ranNumb}
         });
 
-        return newState
+        return newState;
     }
     else if (action.type === actions.USER_GUESS) {
         var guessCounter = state.guessCount++;
@@ -90,13 +37,14 @@ var hotOrColdReducer = function(state, action) {
     }
     else if (action.type === actions.COMPARE_GUESS) {
         var compareGuess;
-        if ((Math.abs(state.usersGuess - state.number)) < 10) {
+        var gapNumber = (Math.abs(state.usersGuess - state.number));
+        if ( gapNumber <= 10 && gapNumber > 0) {
             compareGuess = "hot"
         }
-        else if ((Math.abs(state.usersGuess - state.number)) < 20) {
+        else if (gapNumber <= 20 && gapNumber > 10) {
             compareGuess = "warm"
         }
-        else if (state.usersGuess === state.number && state.usersGuess != undefined) {
+        else if (gapNumber === 0 && state.usersGuess != undefined) {
             compareGuess = "WINNNNEERRRR!!!!"
         }
         else {
@@ -112,8 +60,5 @@ var hotOrColdReducer = function(state, action) {
 
     return state;
 };
-
-
-
 
 exports.hotOrColdReducer = hotOrColdReducer;
