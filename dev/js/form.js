@@ -1,10 +1,13 @@
 var React = require('react');
+var connect = require('react-redux').connect;
+var actions = require('./actions');
 
 var Form= React.createClass({
 	addNewGuess: function (e) {
 		e.preventDefault();
 		var guessValue = this.refs.inputValue.value;
 		console.log(guessValue);
+		this.props.dispatch(actions.userGuess(guessValue));
 	},
 	render: function () {
 		return (
@@ -19,6 +22,9 @@ var Form= React.createClass({
 	}
 });
 
-module.exports = Form;
+var Container = connect()(Form);
+
+module.exports = Container;
+
 
 

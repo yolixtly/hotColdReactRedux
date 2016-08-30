@@ -7,7 +7,7 @@ var ranNumb = Math.floor((Math.random() * 100) + 1);
 var initialState = {
     number: 0,
     usersGuess: 0,
-    compareGuess: '',
+    compareGuess: 'Make a Guess',
     guessCount: 0,
     guessList: []
 };
@@ -16,7 +16,11 @@ var hotOrColdReducer = function(state, currentAction) {
     state = state || initialState;
     if (currentAction.type === actions.GENERATE_NUMBER) {
         var newState = update(state, {
-            number: {$set: ranNumb}
+            number: {$set: ranNumb},
+            usersGuess: {$set: 0},
+            compareGuess: {$set: 'Make a Guess'},
+            guessCount: {$set: 0},
+            guessList: {$set: []}
         });
 
         return newState;
