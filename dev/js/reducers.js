@@ -12,46 +12,44 @@ var initialState = {
     guessList: []
 };
 
-var hotOrColdReducer = function(state, action) {
+var hotOrColdReducer = function(state, currentAction) {
     state = state || initialState;
-    if (action.type === actions.GENERATE_NUMBER) {
+    if (currentAction.type === actions.GENERATE_NUMBER) {
         var newState = update(state, {
             number: {$set: ranNumb}
         });
 
         return newState;
     }
-    else if (action.type === actions.USER_GUESS) {
-        var guessCounter = state.guessCount++;
+    else if (currentAction.type === actions.USER_GUESS) {
+        if(state.number === 0){
+            console.log("Please Generate a Secret number first");
+            return initialState;
+        }
         
-        var beforeList = state.guessList.slice();
-        var afterList = beforeList.concat([action.usersGuess]);
+        var compareGuess = '';
+        var gapNumber = (Math.abs(currentAction.usersGuess - state.number));
 
+        if (state.number === currentAction.usersGuess) {
+            compareGuess = "you win!";
+        } else if (gapNumber <= 10 && gapNumber >= 1) {
+            compareGuess = 'you are very hot';
+        } else if (gapNumber <= 20 && gapNumber >= 11) {
+            compareGuess = 'you are hot';
+        } else if (gapNumber <= 30 && gapNumber >= 21) {
+            compareGuess = 'you are warm';
+        } else if (gapNumber <= 49 && gapNumber >= 39) {
+            compareGuess = 'you are cold';
+        } else {
+            compareGuess = 'you are very cold';
+        }
+
+        var guessCounter = state.guessCount + 1;
+ 
         var newState = update(state, {
-            usersGuess: {$set: action.usersGuess},
+            usersGuess: {$set: currentAction.usersGuess},
             guessCount: {$set: guessCounter},
-            guessList: {$set: afterList}
-        });
-
-        return newState;
-    }
-    else if (action.type === actions.COMPARE_GUESS) {
-        var compareGuess;
-        var gapNumber = (Math.abs(state.usersGuess - state.number));
-        if ( gapNumber <= 10 && gapNumber > 0) {
-            compareGuess = "hot"
-        }
-        else if (gapNumber <= 20 && gapNumber > 10) {
-            compareGuess = "warm"
-        }
-        else if (gapNumber === 0 && state.usersGuess != undefined) {
-            compareGuess = "WINNNNEERRRR!!!!"
-        }
-        else {
-            compareGuess = "cold"
-        }
-        
-        var newState = update(state, {
+            guessList: {$push: [currentAction.usersGuess]},
             compareGuess: {$set: compareGuess},
         });
 
