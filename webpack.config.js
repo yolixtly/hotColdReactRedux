@@ -6,6 +6,10 @@ var packageData = require('./package.json');
 
 var minify = process.argv.indexOf('--minify') != -1;
 
+var LiveReloadPlugin = require('webpack-livereload-plugin');
+
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 var filename = [packageData.name, packageData.version, 'js'];
 var plugins = [];
 
@@ -30,12 +34,22 @@ module.exports = {
           query: {
             presets: ['es2015', 'react']
           }
-        }
+        },
+        // {
+        //         test: /\.css$/,
+        //         loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        //     },
+            // Optionally extract less files
+            // or any other compile-to-css language
+            {
+                test: /\.less$/,
+                loader: ExtractTextPlugin.extract(["css","less"])
+            }
       ]
     },
-    resolve:{
-      extensions: ['', '.js', '.jsx']
-    },
     plugins: [
+    new LiveReloadPlugin(),
+    new ExtractTextPlugin("dev/css/style.less")
+
     ]
 };
