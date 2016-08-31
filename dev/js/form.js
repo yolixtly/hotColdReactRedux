@@ -50,5 +50,7 @@ var Container = connect()(Form);
 
 module.exports = Container;
 
+module.exports = Form;
+
 
 

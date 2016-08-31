@@ -6,11 +6,17 @@ var store = require('../dev/js/store.js');
 var Form = require('../dev/js/form.js');
 
 describe('Form Component', function() {
-    it('It should render a Form',  function() {
+    it.only('It should render a Form',  function() {
         var renderer = TestUtils.createRenderer();
-        renderer.render(<Provider store={store}><Form /></Provider>);
+        renderer.render(<Form />);
         var result = renderer.getRenderOutput();
-        console.log(result);
+        console.log(result.props.children.props.children);
+        result.type.should.equal('div');
+        result.props.children.type.should.equal('form');
+        result.props.children.props.children.length.should.equal(2);
+        result.props.children.props.children[0].type.should.equal('input');
+        result.props.children.props.children[1].type.should.equal('button');
+        // result.type.WrappedComponent.displayName.should.equal('Form');
         // result.type.should.equal('div');
         // result.props.children.props.type.should.equal('button');
         // result.props.children.props.value.should.equal('New Game') 
