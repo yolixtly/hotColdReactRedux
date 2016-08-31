@@ -16,9 +16,5 @@ describe('Form Component', function() {
         result.props.children.props.children.length.should.equal(2);
         result.props.children.props.children[0].type.should.equal('input');
         result.props.children.props.children[1].type.should.equal('button');
-        // result.type.WrappedComponent.displayName.should.equal('Form');
-        // result.type.should.equal('div');
-        // result.props.children.props.type.should.equal('button');
-        // result.props.children.props.value.should.equal('New Game') 
     });
 });
