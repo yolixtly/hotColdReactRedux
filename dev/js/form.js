@@ -8,6 +8,7 @@ var Form= React.createClass({
 		var guessValue = this.refs.inputValue.value;
 		console.log(guessValue);
 		this.props.dispatch(actions.userGuess(guessValue));
+		this.refs.inputValue.value = '';
 	},
 	render: function () {
 		return (

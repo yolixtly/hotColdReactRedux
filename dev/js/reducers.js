@@ -2,10 +2,10 @@
 var update = require('react-addons-update');
 var actions = require('./actions');
 
-var ranNumb = Math.floor((Math.random() * 100) + 1);
+// var ranNumb = Math.floor((Math.random() * 100) + 1);
 
 var initialState = {
-    number: 0,
+    number: Math.floor((Math.random() * 100) + 1),
     usersGuess: 0,
     compareGuess: 'Make a Guess',
     guessCount: 0,
@@ -16,7 +16,7 @@ var hotOrColdReducer = function(state, currentAction) {
     state = state || initialState;
     if (currentAction.type === actions.GENERATE_NUMBER) {
         var newState = update(state, {
-            number: {$set: ranNumb},
+            number: {$set: Math.floor((Math.random() * 100) + 1)},
             usersGuess: {$set: 0},
             compareGuess: {$set: 'Make a Guess'},
             guessCount: {$set: 0},
@@ -34,7 +34,7 @@ var hotOrColdReducer = function(state, currentAction) {
         var compareGuess = '';
         var gapNumber = (Math.abs(currentAction.usersGuess - state.number));
 
-        if (state.number === currentAction.usersGuess) {
+        if (state.number == currentAction.usersGuess) {
             compareGuess = "you win!";
         } else if (gapNumber <= 10 && gapNumber >= 1) {
             compareGuess = 'you are very hot';
